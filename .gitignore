@@ -1,0 +1,47 @@
+# =========================
+# Visual Studio
+# =========================
+.vs/
+*.VC.db
+*.VC.opendb
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# =========================
+# Build folders
+# =========================
+Debug/
+Release/
+x64/
+x86/
+Win32/
+build/
+
+# =========================
+# C++ compiled files
+# =========================
+*.obj
+*.pch
+*.pdb
+*.ilk
+*.idb
+*.tlog
+*.log
+*.lastbuildstate
+
+# =========================
+# Executables / binaries
+# =========================
+*.exe
+*.dll
+*.lib
+*.exp
+
+# =========================
+# CMake (if ever used)
+# =========================
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
