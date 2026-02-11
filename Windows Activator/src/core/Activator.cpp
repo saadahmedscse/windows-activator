@@ -1,4 +1,3 @@
-// Activator.cpp
 #include "Activator.h"
 #include "AppState.h"
 #include <windows.h>
@@ -38,8 +37,8 @@ void ActivationTask() {
     {
         std::lock_guard<std::mutex> lock(g_state.stateMutex);
         g_state.isAlreadyActivated = true;
-        g_state.showSuccessCheckmark = true; // Triggers the green UI animation
-        g_state.statusText = "Windows Already Activated";
+        g_state.showSuccessCheckmark = true;
+        g_state.statusText = "Windows Activated Successfully";
         g_state.isActivating = false;
     }
 }

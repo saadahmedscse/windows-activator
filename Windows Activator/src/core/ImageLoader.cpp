@@ -13,32 +13,29 @@ bool LoadTextureFromMemory(const unsigned char* image_data_in, int image_size, I
     ZeroMemory(&desc, sizeof(desc));
     desc.Width = image_width;
     desc.Height = image_height;
-    desc.MipLevels = 0; // MUST BE 0 to tell DirectX to generate smooth Mipmaps
+    desc.MipLevels = 0;
     desc.ArraySize = 1;
     desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     desc.SampleDesc.Count = 1;
     desc.Usage = D3D11_USAGE_DEFAULT;
-    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET; // Render Target required for Mipmaps
+    desc.BindFlags = D3D11_BIND_SHADER_RESOURCE | D3D11_BIND_RENDER_TARGET;
     desc.CPUAccessFlags = 0;
-    desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS; // Turn on Mipmap generation
+    desc.MiscFlags = D3D11_RESOURCE_MISC_GENERATE_MIPS;
 
     ID3D11Texture2D* pTexture = NULL;
-    // Pass NULL data initially because we have to upload it differently for Mipmaps
     d3dDevice->CreateTexture2D(&desc, NULL, &pTexture);
 
-    // Upload the base 512x512 image
     d3dContext->UpdateSubresource(pTexture, 0, NULL, image_data, image_width * 4, 0);
 
     D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
     ZeroMemory(&srvDesc, sizeof(srvDesc));
     srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
     srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
-    srvDesc.Texture2D.MipLevels = -1; // -1 allows reading all the smoothed mipmap levels
+    srvDesc.Texture2D.MipLevels = -1;
     srvDesc.Texture2D.MostDetailedMip = 0;
     d3dDevice->CreateShaderResourceView(pTexture, &srvDesc, out_srv);
     pTexture->Release();
 
-    // Tell the GPU to instantly generate the buttery-smooth scaled down versions
     d3dContext->GenerateMips(*out_srv);
 
     *out_width = image_width;

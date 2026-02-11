@@ -5,9 +5,8 @@
 #include "../Core/Activator.h"
 #include <math.h>
 #include <windows.h>
-#include <shellapi.h> // REQUIRED FOR OPENING WEB LINKS
+#include <shellapi.h>
 
-// Helper function to draw a smooth circular spinner (Keep your existing one)
 void DrawSpinner(const char* label, float radius, int thickness, const ImU32& color) {
     ImGuiWindow* window = ImGui::GetCurrentWindow();
     if (window->SkipItems) return;
@@ -84,16 +83,16 @@ void RenderUIMain() {
     ImGui::SetCursorPos(ImVec2(ImGui::GetWindowWidth() - 40.0f, 10.0f));
 
     if (g_state.closeIconTex != nullptr) {
-        ImVec2 closeIconSize = ImVec2(16.0f, 16.0f); // EXACTLY HALF SIZE!
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 8.0f)); // Tighter padding
+        ImVec2 closeIconSize = ImVec2(16.0f, 16.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 8.0f));
 
         // Custom colors just for the Close Button
-        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.1f));         // Transparent normal
-        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.2f)); // Red hover background
-        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.8f));    // Darker red on click
+        ImGui::PushStyleColor(ImGuiCol_Button, ImVec4(1.0f, 1.0f, 1.0f, 0.1f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonHovered, ImVec4(1.0f, 1.0f, 1.0f, 0.2f));
+        ImGui::PushStyleColor(ImGuiCol_ButtonActive, ImVec4(1.0f, 1.0f, 1.0f, 0.8f));
 
         if (ImGui::ImageButton("##close", (void*)g_state.closeIconTex, closeIconSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, 1))) {
-            PostQuitMessage(0); // This will now actually fire!
+            PostQuitMessage(0);
         }
 
         // Show the hand cursor
@@ -114,9 +113,9 @@ void RenderUIMain() {
     ImGui::PopFont();
 
     // --- Custom Image Button Styles ---
-    ImVec4 bgCol = ImVec4(0.0f, 0.0f, 0.0f, 0.0f); // Transparent background
-    ImVec4 tintCol = ImVec4(1.0f, 1.0f, 1.0f, 1.0f); // Original PNG colors
-    ImVec2 iconSize = ImVec2(30.0f, 30.0f); // Adjust if your icons are too large/small
+    ImVec4 bgCol = ImVec4(0.0f, 0.0f, 0.0f, 0.0f);
+    ImVec4 tintCol = ImVec4(1.0f, 1.0f, 1.0f, 1.0f);
+    ImVec2 iconSize = ImVec2(30.0f, 30.0f);
 
     // --- Custom Slider Component ---
     ImGui::SetCursorPosY(120.0f);
@@ -125,8 +124,8 @@ void RenderUIMain() {
     ImGui::SetCursorPosX(25.0f);
     if (g_state.leftArrowTex != nullptr) {
 
-        ImVec2 iconSize = ImVec2(24.0f, 24.0f); // The actual icon size inside the button
-        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 8.0f)); // 8px padding restores the background
+        ImVec2 iconSize = ImVec2(24.0f, 24.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_FramePadding, ImVec2(8.0f, 8.0f));
 
         if (ImGui::ImageButton("##left", (void*)g_state.leftArrowTex, iconSize, ImVec2(0, 0), ImVec2(1, 1), ImVec4(0, 0, 0, 0), ImVec4(1, 1, 1, 1)) && !g_state.isActivating) {
             oldSelection = g_state.currentSelection;
@@ -138,7 +137,7 @@ void RenderUIMain() {
             if (g_state.statusText == "Activation Complete!") g_state.statusText = "Ready";
         }
 
-        ImGui::PopStyleVar(); // Important: Pop it so it doesn't affect other buttons!
+        ImGui::PopStyleVar();
 
         if (ImGui::IsItemHovered() && !g_state.isActivating) ImGui::SetMouseCursor(ImGuiMouseCursor_Hand);
     }
@@ -207,7 +206,7 @@ void RenderUIMain() {
         ImGui::SetCursorPosX((ImGui::GetWindowWidth() - 24.0f) * 0.5f);
         DrawSpinner("Loader", 16.0f, 4, IM_COL32(0, 212, 255, 255));
     }
-    // ONLY show the Checkmark if the user JUST successfully clicked activate.
+
     else if (g_state.showSuccessCheckmark) {
         ImVec2 cursorPos = ImGui::GetCursorScreenPos();
         ImVec2 center = ImVec2(cursorPos.x + (btnWidth * 0.5f), cursorPos.y + (btnHeight * 0.5f));
